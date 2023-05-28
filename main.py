@@ -52,6 +52,25 @@ def openai_prompt2(data):
                                             "Explain your reasoning in detail and in a point-wise manner such that would convince me"),
             Message(role="user", content = json.dumps(user_prompt))
             ]
+        
+        if "follow up question" in data:
+
+            # messages.append(Message(role="user", content = "I also have a follow up question : " + data["follow up question"]))
+            messages = [
+                Message(role="system", content = "You are a bot named AutoMind, " +
+                                            "an intelligent LLM assistant in automotive domain, " +
+                                            "that inspects the condition of cars based on the following characteristics on which you need "+
+                                            "to make a calculated decision and tell whether the decision to buy the car is good or not. "+
+                                            "The user input a list of question and answers for you to understand the condition of the car to make an informed decision" +
+                                            "The inputs were - " +
+                                            json.dumps(user_prompt) +
+                                            "you already responded with the below detailed and point-wise response to convince the user of your explicit choice" +
+                                            json.dumps(data["prev_resp"]) +
+                                            "\n Now the user has a follow up question: " +
+                                            data["follow up question"] +
+                                            "Please respond with a sensible and crisp logical answer")
+                      ]
+
 
         options = Options(messages=messages)
 
@@ -384,9 +403,22 @@ def inspect_car():
     oil_back_panel = st.radio("Is the paper spotless?", oil_back_options)
     data["oil_back"] = oil_back_panel
 
-    if st.button("Submit"):
+    if st.checkbox("Submit"):
+        reply = openai_prompt2(data)
+        reply_cont = st.container()
+        # reply_cont.write('spme reply')
+        data_cont = st.container()
+        data_new_var = data_cont.text_input(label='Ask a followup question')
+        data["prev_resp"] = reply
+        data["follow up question"] = data_new_var
+
+        if st.checkbox('Submit more') and data_new_var is not None:
+            openai_prompt2(data)
         
-        openai_prompt2(data)
+            # st.write(another_reply)
+            
+        
+        
 
 if __name__ == "__main__":
     main()
