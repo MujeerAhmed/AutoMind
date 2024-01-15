@@ -1,6 +1,8 @@
 # AutoMind
 AutoMind is an innovative project that emerged as the result of a dynamic Generative AI Hackathon organized by Jovian and Multiply Ventures. AutoMind goes beyond a traditional car comparison platform where you not only have access to a comprehensive database of online car listings but also harness the power of our cutting-edge Language Model (LLM) to inspect pre-owned vehicles like a seasoned professional.
 
+Demo Link: https://lnkd.in/gBDZg-gS
+
 <img align="center" src="./images/unnamed.jpg">
 
 ---
